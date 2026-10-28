@@ -2090,6 +2090,447 @@ button {
 }
 
 /* ==========================================================================
+   ✨ PREMIUM VISUAL ENHANCEMENTS — Micro-animações & Efeitos Avançados
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   ANIMAÇÕES DE ENTRADA (SCROLL-REVEAL)
+   Aplique a classe .reveal nos elementos para ativar via JS
+   -------------------------------------------------------------------------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-40px);
+  transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.reveal-left.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.reveal-right {
+  opacity: 0;
+  transform: translateX(40px);
+  transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.reveal-right.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Atraso escalonado para grids */
+.reveal:nth-child(1), .reveal-left:nth-child(1), .reveal-right:nth-child(1) { transition-delay: 0s; }
+.reveal:nth-child(2), .reveal-left:nth-child(2), .reveal-right:nth-child(2) { transition-delay: 0.1s; }
+.reveal:nth-child(3), .reveal-left:nth-child(3), .reveal-right:nth-child(3) { transition-delay: 0.2s; }
+.reveal:nth-child(4), .reveal-left:nth-child(4), .reveal-right:nth-child(4) { transition-delay: 0.3s; }
+
+/* --------------------------------------------------------------------------
+   HERO APRIMORADO — Partículas flutuantes e efeito parallax
+   -------------------------------------------------------------------------- */
+.hero-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 20% 50%, rgba(217, 155, 38, 0.15) 0%, transparent 60%),
+              radial-gradient(ellipse at 80% 20%, rgba(196, 90, 53, 0.12) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 1;
+  animation: heroGlow 8s ease-in-out infinite alternate;
+}
+
+@keyframes heroGlow {
+  0%   { opacity: 0.6; }
+  100% { opacity: 1; }
+}
+
+/* Partícula decorativa flutuante no hero */
+.hero-section::after {
+  content: "✦";
+  position: absolute;
+  top: 18%;
+  right: 12%;
+  font-size: 3rem;
+  color: rgba(217, 155, 38, 0.25);
+  animation: floatStar 6s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@keyframes floatStar {
+  0%, 100% { transform: translateY(0) rotate(0deg);   opacity: 0.3; }
+  50%       { transform: translateY(-20px) rotate(20deg); opacity: 0.6; }
+}
+
+/* Aprimoramento da hero tag — brilho animado */
+.hero-tag {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-tag::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  animation: tagShimmer 3s ease-in-out infinite;
+}
+
+@keyframes tagShimmer {
+  0%   { left: -100%; }
+  60%  { left: 140%;  }
+  100% { left: 140%;  }
+}
+
+/* --------------------------------------------------------------------------
+   CARDS DE PRODUTO — Glow, shimmer e efeitos premium
+   -------------------------------------------------------------------------- */
+.product-card {
+  transition: all var(--transition-normal), box-shadow 0.4s ease;
+}
+
+.product-card:hover {
+  box-shadow: 0 20px 50px rgba(31, 62, 43, 0.18),
+              0 0 0 1px var(--color-secondary),
+              0 0 30px rgba(196, 90, 53, 0.08);
+}
+
+/* Shimmer de carregamento nos cards */
+.product-card.loading .product-image-wrap,
+.product-card.loading .product-body {
+  background: linear-gradient(90deg, #f0ebe4 25%, #e8e0d8 50%, #f0ebe4 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--radius-md);
+}
+
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Badge de produto com pulso suave */
+.product-badge {
+  animation: badgeEntrance 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes badgeEntrance {
+  from { transform: scale(0.7); opacity: 0; }
+  to   { transform: scale(1);   opacity: 1; }
+}
+
+/* Linha de preço com destaque animado ao hover do card */
+.product-card:hover .price-main {
+  color: var(--color-secondary);
+  transition: color 0.3s ease;
+}
+
+/* --------------------------------------------------------------------------
+   TRUST BAR — Ícones animados ao hover
+   -------------------------------------------------------------------------- */
+.trust-item {
+  transition: transform var(--transition-fast);
+}
+
+.trust-item:hover {
+  transform: translateY(-3px);
+}
+
+.trust-item:hover .trust-icon {
+  background-color: var(--color-secondary-soft);
+  transform: scale(1.1) rotate(-5deg);
+  transition: all var(--transition-bounce);
+}
+
+/* --------------------------------------------------------------------------
+   VALUE CARDS — Ícone com rotação ao hover
+   -------------------------------------------------------------------------- */
+.value-card:hover .value-icon {
+  transform: scale(1.12) rotate(8deg);
+  background-color: var(--color-accent-soft);
+  color: var(--color-accent);
+  transition: all var(--transition-bounce);
+}
+
+/* --------------------------------------------------------------------------
+   NAVBAR — Efeito glassmorphism ao scrollar (ativado via JS com .scrolled)
+   -------------------------------------------------------------------------- */
+.site-header.scrolled {
+  background-color: rgba(31, 62, 43, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(217, 155, 38, 0.2);
+  box-shadow: 0 4px 24px rgba(19, 40, 28, 0.4), 0 1px 0 rgba(255,255,255,0.05);
+}
+
+/* --------------------------------------------------------------------------
+   SECTION TAGS — Brilho suave
+   -------------------------------------------------------------------------- */
+.section-tag {
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(196, 90, 53, 0.15);
+}
+
+/* --------------------------------------------------------------------------
+   BOTÕES — Efeito ripple e brilho
+   -------------------------------------------------------------------------- */
+.btn-primary,
+.btn-add-cart,
+.btn-buy-now,
+.btn-checkout {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary::after,
+.btn-add-cart::after,
+.btn-buy-now::after,
+.btn-checkout::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 60%);
+  pointer-events: none;
+  transition: opacity var(--transition-fast);
+  opacity: 0;
+}
+
+.btn-primary:hover::after,
+.btn-add-cart:hover::after,
+.btn-buy-now:hover::after,
+.btn-checkout:hover::after {
+  opacity: 1;
+}
+
+/* --------------------------------------------------------------------------
+   LOGO — Animação sutil de rotação no ícone
+   -------------------------------------------------------------------------- */
+.logo:hover .logo-icon {
+  transform: rotate(15deg) scale(1.05);
+  transition: transform var(--transition-bounce);
+}
+
+/* --------------------------------------------------------------------------
+   FOOTER — Gradiente aprimorado e partícula decorativa
+   -------------------------------------------------------------------------- */
+.site-footer {
+  background: linear-gradient(160deg, #1F3E2B 0%, #14281C 50%, #0E1E14 100%);
+  position: relative;
+}
+
+.site-footer::before {
+  content: "✦";
+  position: absolute;
+  top: 3rem;
+  right: 5%;
+  font-size: 6rem;
+  color: rgba(217, 155, 38, 0.06);
+  pointer-events: none;
+  font-family: 'Cinzel', serif;
+}
+
+/* Borda decorativa animada no topo do footer */
+.site-footer .indigenous-pattern-bar {
+  height: 5px;
+  background: linear-gradient(
+    90deg,
+    var(--color-secondary),
+    var(--color-accent),
+    var(--color-primary),
+    var(--color-accent),
+    var(--color-secondary)
+  );
+  background-size: 200% 100%;
+  animation: patternFlow 4s linear infinite;
+}
+
+@keyframes patternFlow {
+  0%   { background-position: 0% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* --------------------------------------------------------------------------
+   INDIGENOUS PATTERN DIVIDER — Animação de pulso suave
+   -------------------------------------------------------------------------- */
+.indigenous-pattern-divider svg {
+  animation: dividerPulse 2s ease-in-out infinite;
+}
+
+@keyframes dividerPulse {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50%       { transform: scale(1.2); opacity: 1; }
+}
+
+/* --------------------------------------------------------------------------
+   STATS — Contador com animação
+   -------------------------------------------------------------------------- */
+.stat-number {
+  position: relative;
+  display: inline-block;
+}
+
+.purpose-stats > div:hover .stat-number {
+  transform: scale(1.1);
+  transition: transform var(--transition-bounce);
+  color: #FFFFFF;
+}
+
+/* --------------------------------------------------------------------------
+   TOAST — Ícone pulsante
+   -------------------------------------------------------------------------- */
+.toast-notification.show .toast-icon {
+  animation: toastIconPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes toastIconPop {
+  from { transform: scale(0); }
+  to   { transform: scale(1); }
+}
+
+/* --------------------------------------------------------------------------
+   STORY GRID — Imagens com zoom suave ao hover
+   -------------------------------------------------------------------------- */
+.story-image-wrap img {
+  transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.story-image-wrap:hover img {
+  transform: scale(1.04);
+}
+
+/* --------------------------------------------------------------------------
+   WIKIPEDIA CARD — Borda animada
+   -------------------------------------------------------------------------- */
+.wikipedia-highlight-card {
+  position: relative;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.wikipedia-highlight-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 48px rgba(31, 62, 43, 0.18);
+}
+
+/* --------------------------------------------------------------------------
+   CART BADGE — Entrada dramática
+   -------------------------------------------------------------------------- */
+.cart-count[style*="display: flex"],
+.cart-count:not([style*="display:none"]) {
+  animation: badgeAppear 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes badgeAppear {
+  from { transform: scale(0) rotate(-30deg); opacity: 0; }
+  to   { transform: scale(1) rotate(0deg);   opacity: 1; }
+}
+
+/* --------------------------------------------------------------------------
+   CATEGORY PILLS — Efeito de seleção melhorado
+   -------------------------------------------------------------------------- */
+.category-pill {
+  position: relative;
+  overflow: hidden;
+}
+
+.category-pill.active {
+  box-shadow: 0 4px 14px rgba(31, 62, 43, 0.3);
+}
+
+.category-pill::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.4s ease, height 0.4s ease, opacity 0.4s ease;
+  opacity: 0;
+}
+
+.category-pill:active::before {
+  width: 200px;
+  height: 200px;
+  opacity: 0;
+}
+
+/* --------------------------------------------------------------------------
+   PURPOSE BLOCK — Overlay decorativo refinado
+   -------------------------------------------------------------------------- */
+.purpose-block {
+  background: linear-gradient(135deg, var(--color-primary) 0%, #0F2018 100%);
+}
+
+.purpose-block::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  right: -10%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(217, 155, 38, 0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   SCROLLBAR ESTILIZADA
+   -------------------------------------------------------------------------- */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--color-secondary), var(--color-accent));
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary);
+}
+
+/* --------------------------------------------------------------------------
+   SELEÇÃO DE TEXTO PERSONALIZADA
+   -------------------------------------------------------------------------- */
+::selection {
+  background-color: rgba(196, 90, 53, 0.25);
+  color: var(--color-primary);
+}
+
+/* --------------------------------------------------------------------------
+   FOCUS RING ACESSÍVEL E ESTILIZADO
+   -------------------------------------------------------------------------- */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ==========================================================================
    RESPONSIVIDADE (MOBILE & TABLET)
    ========================================================================== */
 @media (max-width: 992px) {

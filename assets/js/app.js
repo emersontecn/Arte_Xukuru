@@ -973,20 +973,78 @@ function initApp() {
     }
   });
 
-  // Animações de scroll (Intersection Observer)
-  const observer = new IntersectionObserver((entries) => {
+  // ============================================================
+  // ✨ PREMIUM VISUAL ENHANCEMENTS — Scroll-Reveal & Efeitos
+  // ============================================================
+
+  // 1. Navbar glassmorphism ao scrollar
+  const siteHeader = document.querySelector('.site-header');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 40) {
+      siteHeader?.classList.add('scrolled');
+    } else {
+      siteHeader?.classList.remove('scrolled');
+    }
+  }, { passive: true });
+
+  // 2. Scroll-Reveal usando IntersectionObserver com classes .reveal
+  const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        entry.target.style.animation = 'fadeInUp 0.6s ease-out forwards';
-        observer.unobserve(entry.target);
+        entry.target.classList.add('visible');
+        revealObserver.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.1 });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
 
-  document.querySelectorAll('.product-card, .value-card, .trust-item').forEach(el => {
-    el.style.opacity = '0';
-    observer.observe(el);
+  // Aplicar classes de reveal a elementos estáticos das páginas
+  const revealTargets = [
+    { selector: '.trust-item',         className: 'reveal'       },
+    { selector: '.value-card',         className: 'reveal'       },
+    { selector: '.section-header',     className: 'reveal'       },
+    { selector: '.purpose-content',    className: 'reveal-right' },
+    { selector: '.purpose-image',      className: 'reveal-left'  },
+    { selector: '.story-content',      className: 'reveal-right' },
+    { selector: '.story-image-wrap',   className: 'reveal-left'  },
+    { selector: '.wikipedia-highlight-card', className: 'reveal' },
+    { selector: '.footer-col',         className: 'reveal'       },
+    { selector: '.footer-brand',       className: 'reveal-left'  },
+  ];
+
+  revealTargets.forEach(({ selector, className }) => {
+    document.querySelectorAll(selector).forEach(el => {
+      // Só aplica se ainda não tiver uma classe reveal
+      if (!el.classList.contains('reveal') &&
+          !el.classList.contains('reveal-left') &&
+          !el.classList.contains('reveal-right')) {
+        el.classList.add(className);
+        revealObserver.observe(el);
+      }
+    });
   });
+
+  // 3. Scroll-reveal para product-cards renderizados dinamicamente (legado)
+  const legacyObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+        legacyObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+
+  // Função pública para re-observar cards após renderização
+  window.observeNewCards = () => {
+    document.querySelectorAll('.product-card:not([data-observed])').forEach(card => {
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(30px)';
+      card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+      card.dataset.observed = 'true';
+      legacyObserver.observe(card);
+    });
+  };
 }
 
 document.addEventListener('DOMContentLoaded', initApp);
+
